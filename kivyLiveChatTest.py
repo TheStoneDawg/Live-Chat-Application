@@ -10,22 +10,25 @@ from firebase import firebase
 
 
 
-inputText = ""
+
 
 class testLiveChatApp(App):
+	inputText = ""
 	def build(self):
 		root = self.setupUI()
 		return root
 
 
-	def inputTextChanged(instance,value):
-		self.inputText = value.text
+	def inputTextChanged(self,instance,value):
+		self.inputText = value
 		print(self.inputText)
 
 
 
 	def enterChat(instance, value):
-		print(value.text)
+		SamChungsFirebase = firebase.FirebaseApplication('https://kivytestlivechat.firebaseio.com/',None)
+		message = self.inputText
+		firebase.post(message)
 
 	def setupUI(self):
 		layout = BoxLayout(orientation = 'vertical')

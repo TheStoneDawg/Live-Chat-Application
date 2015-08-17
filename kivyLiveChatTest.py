@@ -8,12 +8,14 @@ from kivy.uix.button import Button
 import requests
 from firebase import firebase
 
+from kivy.adapters.listadapter import 
+
 
 
 
 
 class testLiveChatApp(App):
-	inputText = ""
+	inputText = "Please enter your message!"
 	def build(self):
 		root = self.setupUI()
 		return root
@@ -24,11 +26,24 @@ class testLiveChatApp(App):
 		print(self.inputText)
 
 
+	def getData(self,instance,value):
+		SamChungsFirebase = firebase.FirebaseApplication('https://kivytestlivechat.firebaseio.com/',None)
+		data = SamChungsFirebase.get('/', None)
+		for key in data:
+			message = data[key]
+			new_Label = Label(text=message)
+			self.root.remove_widget()
+			self.root.add_widget(new_Label)
 
-	def enterChat(instance, value):
+
+
+
+
+	def enterChat(self,instance):
 		SamChungsFirebase = firebase.FirebaseApplication('https://kivytestlivechat.firebaseio.com/',None)
 		message = self.inputText
-		firebase.post(message)
+		SamChungsFirebase.post('/', message)
+		self.getData(self,instance)
 
 	def setupUI(self):
 		layout = BoxLayout(orientation = 'vertical')
